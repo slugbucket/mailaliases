@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Item type:</strong>
+  <%= @activity_log.item_type %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @activity_log.item_id %>
+</p>
+
+<p>
+  <strong>Act action:</strong>
+  <%= @activity_log.act_action %>
+</p>
+
+<p>
+  <strong>Updated by:</strong>
+  <%= @activity_log.updated_by %>
+</p>
+
+<p>
+  <strong>Activity:</strong>
+  <%= @activity_log.activity %>
+</p>
+
+<p>
+  <strong>Act tstamp:</strong>
+  <%= @activity_log.act_tstamp %>
+</p>
+
+<%= link_to 'Edit', edit_activity_log_path(@activity_log) %> |
+<%= link_to 'Back', activity_logs_path %>

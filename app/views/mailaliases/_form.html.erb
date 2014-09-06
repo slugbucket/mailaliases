@@ -1,0 +1,37 @@
+<%= form_for(@mailalias) do |f| %>
+  <% if @mailalias.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mailalias.errors.count, "error") %> prohibited this mailalias from being saved:</h2>
+
+      <ul>
+      <% @mailalias.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div style="display: inline; float: left; width: 60%;">
+    <fieldset><legend>Account details</legend>
+
+      <div> <!-- wrapper around account details and help divs -->
+        <div class="field" style="float: left;">
+    <%= f.label :cn %><br />
+    <%= f.text_field :cn, :class => "mailaliases" %><br />
+
+    <%= f.label :rfc822mailmember, "Recipients (separate multiple entries with newlines)" %><br />
+    <%= f.text_area :rfc822mailmember %><br />
+
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div style="clear: both;"></div>
+
+  <div class="actions">
+    <%= f.submit :class => 'button' %>
+  </div>
+<% end %>

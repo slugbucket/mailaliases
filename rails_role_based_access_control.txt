@@ -1,0 +1,547 @@
+Consider a combination of the following tools:
+Devise: https://github.com/plataformatec/devise for authentication
+DeviseLdapAuthenticatable: https://github.com/cschiewek/devise_ldap_authenticatable
+CanCan: https://github.com/ryanb/cancan for RBAC
+Rolify: https://github.com/EppO/rolify for role management
+
+Possible hints for working with RBAC:
+http://technpol.wordpress.com/2013/05/05/rails-cancan-and-rolify-instance-based-access-control/
+http://felixhanley.info/articles/rails-role-based-access-with-cancan/
+
+Though neither is particularly detailed.
+However, Jose Valim (author or Devise) recommends reading
+http://railscasts.com/episodes/250-authentication-from-scratch?view=asciicast
+
+See also the TODO file for Mailaliases containing details on using Devise with LDAP.
+
+However, the following tut is for devise, CanCan and Rolify
+https://github.com/EppO/rolify/wiki/Tutorial
+
+There is also a turorial for devise LDAP authenticatable,
+http://corrupt.net/2010/07/05/LDAP-Authentication-With-Devise/
+
+To use rolify, cancan and devise:
+
+Add the following to the Gemfile,
+ 
+gem 'devise'
+gem 'cancan'
+gem 'rolify'
+
+$ bundle install
+Fetching gem metadata from https://rubygems.org/..........
+Fetching gem metadata from https://rubygems.org/..
+Resolving dependencies...
+Enter your password to install the bundled RubyGems to your system: 
+... 
+Installing bcrypt-ruby (3.1.2) 
+Installing cancan (1.6.10) 
+... 
+Installing warden (1.2.3) 
+Installing devise (3.2.2) 
+Installing net-ldap (0.3.1) 
+Installing devise_ldap_authenticatable (0.8.1) 
+... 
+Installing rolify (3.2.0) 
+... 
+Your bundle is complete!
+Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+$ rails generate devise:install
+     create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here 
+     is an example of default_url_options appropriate for a development environment 
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root :to => "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================
+
+According to the Devise Wiki,
+https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address,
+there are some steps to go through to use the usernaem for authentication instead
+of email.
+
+Add the following to app/controllers/application_controller.rb
+   # Configure allowed parameters for Devise controller
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+  ...
+  protected
+  ...
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:username, :password, :remember_me) }
+  end
+
+$ rails generate devise User
+      invoke  active_record
+      create    db/migrate/20140119084857_devise_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/models/user_test.rb
+      create      test/fixtures/users.yml
+      insert    app/models/user.rb
+       route  devise_for :users
+
+We will need to generate the devise views so that we can create our own login form,
+$ rails g devise:views
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/devise/shared
+      create    app/views/devise/shared/_links.erb
+      invoke  form_for
+      create    app/views/devise/confirmations
+      create    app/views/devise/confirmations/new.html.erb
+      create    app/views/devise/passwords
+      create    app/views/devise/passwords/edit.html.erb
+      create    app/views/devise/passwords/new.html.erb
+      create    app/views/devise/registrations
+      create    app/views/devise/registrations/edit.html.erb
+      create    app/views/devise/registrations/new.html.erb
+      create    app/views/devise/sessions
+      create    app/views/devise/sessions/new.html.erb
+      create    app/views/devise/unlocks
+      create    app/views/devise/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/devise/mailer
+      create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/mailer/unlock_instructions.html.erb
+
+Although we won't need all of them; just the session for now: app/views/devise/sessions/new.html.erb
+
+<h2>Sign in</h2>
+
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name) ) do |f| %>
+  <div class="field" style="float: left;">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, :class => "mailaliases", :size => 16 %><br />
+    <%= f.label :password %><br />
+    <%= f.password_field :password, :class => "mailaliases", :size => 16 %>
+	</div>
+    <div style="clear: both;"></div>
+      
+    <% if devise_mapping.rememberable? -%>
+	
+    <div class="field" style="float: left;">
+	  <%= f.check_box :remember_me %> <%= f.label :remember_me %>
+	</div>
+	<br />
+	<div style="clear: both;"></div>
+    <% end -%>
+
+    <div class="actions">
+  	  <%= f.submit "Sign in", :class => 'button' %>
+    </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+$ rails generate cancan:ability
+      create  app/models/ability.rb
+$ rails generate rolify:role
+      create  app/models/role.rb
+      insert  app/models/user.rb
+      create  config/initializers/rolify.rb
+      create  db/migrate/20140119084954_rolify_create_roles.rb
+===============================================================================
+
+An initializer file has been created here: config/initializers/rolify.rb, you 
+can change rolify settings to match your needs. 
+Defaults values are commented out.
+
+A Role class has been been created in app/models (with the name you gave as 
+argument otherwise the default is role.rb), you can add your own business logic 
+inside.
+
+Inside your User class (or the name you gave as argument otherwise the default 
+is user.rb), rolify method has been inserted to provide rolify methods.
+
+Now, if you just have to run the migration using rake command:
+
+   rake db:migrate
+
+and you will be able to add the resourcify method inside all models you want 
+scoped by a role.
+
+===============================================================================
+
+We need to do a bit of work on the LDAP side before applying the User model and
+playing with CanCan and Rolify.
+
+$ rails generate devise_ldap_authenticatable:install
+      create  config/ldap.yml
+      insert  config/initializers/devise.rb
+        gsub  app/models/user.rb
+      insert  app/controllers/application_controller.rb
+
+Firstly, apply our required Devise initializer settings.
+
+  # ==> LDAP Configuration 
+  # config.ldap_logger = true
+  config.ldap_create_user = true
+  config.ldap_update_password = false
+  config.ldap_config = "#{Rails.root}/config/ldap.yml"
+  # config.ldap_check_group_membership = false
+  # config.ldap_check_attributes = false
+  config.ldap_use_admin_to_bind = true
+  # config.ldap_ad_group_check = false
+
+We will probably want to enable the check _group_membership and attributes
+at some point when we're more comfortable with the operation.
+
+We also adjust the Devise initializer settings as follows:
+
+  config.case_insensitive_keys = [ :username ]
+  config.strip_whitespace_keys = [ :username ]
+
+We then need to tweak config/ldap.yml with the directory server settings:
+## Enviornments
+development:
+  # <<: *AUTHORIZATIONS
+  host: 127.0.0.1
+  port: 1389
+  attribute: cn
+  base: DC=london,DC=campus,DC=london,DC=edu
+  #bind_dn: cn=networkauth,ou=FTP,ou=Accounts,DC=london,DC=campus,DC=london,DC=edu
+  #password: <secret>
+  # These fields inserted by devise_ldap_authenticatable
+  admin_user: cn=networkauth,ou=FTP,ou=Accounts,DC=london,DC=campus,DC=london,DC=edu
+  admin_password: <secret>
+  ssl: false
+
+By default, Devise uses the email address as the login identifier (guess
+what kind of application Rails is often used for).
+The generator also updates the user model with some new Devise settings but we will need to extend
+these to support our authentication requirements:
+
+  # Instead of using :authentication_keys here, we could put it in the
+  # Devise initializer unde config.authentication_keys = [:username] 
+  devise :ldap_authenticatable, :rememberable, :trackable, :authentication_keys => [:username]
+  
+  # Use the following to extract additional attributes
+  #before_save :get_ldap_email
+
+  #def get_ldap_email
+  #  self.email = Devise::LDAP::Adapter.get_ldap_param(self.username,"mail")
+  #end
+
+  # Replace with a validation of my own
+  validates :username, :presence => true
+
+  def self.find_for_authentication(conditions)
+    conditions = ["username = ?", conditions[authentication_keys.first], conditions[authentication_keys.first]]
+    # raise StandardError, conditions.inspect
+    super
+  end
+  def create  
+    @user_session = UserSession.new(params[:user_session])  
+    if @user_session.save  
+      flash[:notice] = "Login successful!"  
+      redirect_to user_path  
+    else  
+      respond_to do |wants|  
+        wants.html { render :new }  
+        wants.js # create.js.erb  
+      end  
+    end  
+  end
+  def destroy  
+    reset_session  
+    flash[:notice] = "Logout successful!"  
+    redirect_to user_path   
+  end
+
+We don't need to change the application_controller setting,
+  rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
+    render :text => exception, :status => 500
+  end
+
+Adjust the user  migration to taste.
+
+class DeviseCreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users, :options => 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
+      ## We're not using
+      ## Database authenticatable
+      t.string :usernmame,          :null => false
+      ## We don't need to store the pasword 
+      ## t.string :encrypted_password, :null => false, :default => ""
+
+      ## Trackable
+      t.integer  :sign_in_count, :default => 0, :null => false
+      t.datetime :current_sign_in_at
+      t.datetime :last_sign_in_at
+      t.string   :current_sign_in_ip
+      t.string   :last_sign_in_ip
+
+      # rememberable
+      t.datetime :remember_created_at
+
+
+      t.timestamps
+    end
+
+    add_index :users, :username,                :unique => true
+  end
+end
+$ rake db:migrate
+
+Add the following filter to any controllers that require authentication
+before allowing any action,
+
+before_filter :authenticate_user!, :except => [:show, :index]
+
+Customise the message displayed when a login error occurs by
+editing config/locales/devise.en.yml and changing the failure message.
+
+Change the path used to access to the login page from /sign_up to /login by editing the
+config/routes.rb
+and changing the devise_for :users
+devise_for :users, :path_names => {:sign_in => "login" }
+
+ 
+Now, we get prompted for a login. The directory connection works and returns
+a result but Rails throws a 500 Server error with no details.
+Suspect that we don't have a session store configured.
+
+$ rails g active_record:devise session -p
+      create  db/migrate/20140122203005_add_devise_to_sessions.rb
+      create  app/models/session.rb
+      invoke  test_unit
+      create    test/models/session_test.rb
+      create    test/fixtures/sessions.yml
+      insert  app/models/session.rb
+
+Nope. That's not it; the generated files are the same as the User model
+No, what the problem actually is is that the logging in user is not in the database.
+
+A good posting on Rails session management at
+https://www.coffeepowered.net/2013/09/26/rails-session-cookies/
+
+The session store details can be found in config/initializers/session_store.rb
+
+========================================================================================
+
+     C  a  n      C  a  n
+     ---------------------
+
+Check the Railscast at http://railscasts.com/episodes/192-authorization-with-cancan
+
+Let's start with the simplest case. Add the following to app/modesl/ability.rb:
+
+    user ||= User.new # guest user (not logged in)
+    if user.has_role? :admin
+      can :manage, :all
+    else
+      can :read, :all
+    end
+========================================================================================
+
+      R  O  L  I  F  Y
+      ----------------
+
+Firstly, after installing the Rolify method and ActiveRecord methods,
+update the User model with,
+
+class User < ActiveRecord::Base
+  rolify
+  ...
+end
+
+Then resourcify the resource to be role-controlled,
+
+class Category < ActiveRecord::Base
+  resourcify
+  ...
+end
+
+There are two steps we need to take to implement the authorization.
+1. Remove unauthorised actions from the view, say index.html.erb,
+<% if can? :admin, @category %>
+<%= render :partial => "shared/delete_link" ... %>
+<% end %>
+
+We also need to add controls to the controller to prevent a specific
+URL being used, e.g., category/1/edit. We add controls to the controller
+actions we need to limit, app/controllers/category_controller.rb,
+
+  def edit
+  ...
+    authorize! :admin, @category
+    ...
+  end
+
+But because this can be tedious for every method, a shortcut is available
+Simply add
+
+load_and_authorize_resource
+
+at the start of the controller 
+Attempting to edit the restricted resource will now throw an error,
+ CanCan::AccessDenied in CategoriesController#edit 
+
+This is where we update the application_controller.rb to display a more
+friendly message,
+class ApplicationController < ActionController::Base
+  ...
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to :back, :alert => "You are not authorized to access this page."
+    Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
+  end
+  ...
+end
+
+Using this method means that accessing the URL directly throws the following error,
+
+ActionController::RedirectBackError
+
+So it might be best to store the page in a session variable; we'll probably do this
+in any case when we enable the search function.
+There is also a Railscast on this very subject:
+ http://railscasts.com/episodes/131-going-back
+
+And when we remove Rolify when the role-based permissioning isn't apparently doing
+anything...
+
+$ rails g model users_roles user_id:integer role_id:integer
+      invoke  active_record
+      create    db/migrate/20140124140846_create_users_roles.rb
+      create    app/models/users_roles.rb
+      invoke    test_unit
+      create      test/models/users_roles_test.rb
+      create      test/fixtures/users_roles.yml
+$ rm -f db/migrate/20140124140846_create_users_roles.rb
+
+Update config/initializers/ability.rb to include,
+
+    user ||= User.new # guest user (not logged in)
+    if user.roles.map(&:name)[0] == "admin"
+      Rails.logger.debug "Matched admin role permission"
+      can [:edit, :update, :new, :destroy], Phone
+      can [:edit, :update, :new, :destroy], Category
+      can [:edit, :update, :new, :destroy], Department
+      can [:edit, :update, :new, :destroy], SubDepartment
+      can [:edit, :update, :new, :destroy], ExtensionRange
+      can [:edit, :update, :new, :destroy], User
+      can [:edit, :update, :new, :destroy], Role
+    elsif user.roles.map(&:name)[0] == "editor"
+      Rails.logger.debug "Matched editor role permission"
+      can [:edit, :update, :read], Phone
+      cannot :manage, Category
+      cannot :manage, Department
+      cannot :manage, SubDepartment
+      cannot :manage, ExtensionRange
+      cannot :manage, User
+      cannot :manage, Role
+    end
+    can :read, :all
+
+This looks wrong and cumbersome but appears to be what's required to have it so
+that editor users can only edit Phone entries while admin users ahve free rein.
+
+The Role and User table needs to be updated with the many-many rule,
+has_and_belongs_to_many :roles, :join_table => :users_roles
+
+Even though the relationship isn't m:m.
+The association table becomes,
+
+class UsersRoles < ActiveRecord::Base
+  has_one :user
+  belongs_to :role
+end
+
+To try and avoid providing temptation in front of those that find the list
+of resources they're not permitted to manage, we can hide the edit icon with,
+
+        <td><%= link_to_modal phone.user_name, phone %></td>
+        <td>
+        <% if can? :edit, Phone %>
+        <%= link_to image_tag("edit-icon.png", :size => "16x16", :title => "Edit details"), edit_phone_path(phone) %>
+        <% end %>
+        </td>
+and maybe the same for the delete icon.
+
+There is work to be done here to make this work better.
+===============================================================================
+
+  R o l e    M a n a g e m e n t
+  ------------------------------
+Create a controller for managing the roles
+
+$ rails g controller Roles
+      create  app/controllers/roles_controller.rb
+      invoke  erb
+      create    app/views/roles
+      invoke  test_unit
+      create    test/controllers/roles_controller_test.rb
+      invoke  helper
+      create    app/helpers/roles_helper.rb
+      invoke    test_unit
+      create      test/helpers/roles_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/roles.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/roles.css.scss
+===============================================================================
+
+Good Railscast describing embedded many-many model
+
+========================================================================================
+
+Notes taken from the Mailaliases TODO:
+
+let's try Devise and LDAP authenticatable:
+https://github.com/cschiewek/devise_ldap_authenticatable
+
+https://rubygems.org/gems/devise_ldap_authenticatable
+http://rubydoc.info/gems/devise_ldap_authenticatable/0.6.1/frames
+
+Installation and setup
+----------------------
+# gem install devise_ldap_authenticatable
+
+$ rails generate devise:install
+Bundler could not find compatible versions for gem "net-ldap":
+  In snapshot (Gemfile.lock):
+    net-ldap (0.3.1)
+
+  In Gemfile:
+    devise_ldap_authenticatable (>= 0) ruby depends on
+      net-ldap (~> 0.2.2) ruby
+
+Running `bundle update` will rebuild your snapshot from scratch, using only
+the gems in your Gemfile, which may resolve the conflict.
+
+$ rails generate devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================

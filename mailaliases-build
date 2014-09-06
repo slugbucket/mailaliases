@@ -1,0 +1,351 @@
+~/Projects/github$ rails new mailaliases -d mysql
+      create  
+      create  README.rdoc
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/assets/javascripts/application.js
+      create  app/assets/stylesheets/application.css
+      create  app/controllers/application_controller.rb
+      create  app/helpers/application_helper.rb
+      create  app/views/layouts/application.html.erb
+      create  app/assets/images/.keep
+      create  app/mailers/.keep
+      create  app/models/.keep
+      create  app/controllers/concerns/.keep
+      create  app/models/concerns/.keep
+      create  bin
+      create  bin/bundle
+      create  bin/rails
+      create  bin/rake
+      create  config
+      create  config/routes.rb
+      create  config/application.rb
+      create  config/environment.rb
+      create  config/secrets.yml
+      create  config/environments
+      create  config/environments/development.rb
+      create  config/environments/production.rb
+      create  config/environments/test.rb
+      create  config/initializers
+      create  config/initializers/backtrace_silencers.rb
+      create  config/initializers/cookies_serializer.rb
+      create  config/initializers/filter_parameter_logging.rb
+      create  config/initializers/inflections.rb
+      create  config/initializers/mime_types.rb
+      create  config/initializers/session_store.rb
+      create  config/initializers/wrap_parameters.rb
+      create  config/locales
+      create  config/locales/en.yml
+      create  config/boot.rb
+      create  config/database.yml
+      create  db
+      create  db/seeds.rb
+      create  lib
+      create  lib/tasks
+      create  lib/tasks/.keep
+      create  lib/assets
+      create  lib/assets/.keep
+      create  log
+      create  log/.keep
+      create  public
+      create  public/404.html
+      create  public/422.html
+      create  public/500.html
+      create  public/favicon.ico
+      create  public/robots.txt
+      create  test/fixtures
+      create  test/fixtures/.keep
+      create  test/controllers
+      create  test/controllers/.keep
+      create  test/mailers
+      create  test/mailers/.keep
+      create  test/models
+      create  test/models/.keep
+      create  test/helpers
+      create  test/helpers/.keep
+      create  test/integration
+      create  test/integration/.keep
+      create  test/test_helper.rb
+      create  tmp/cache
+      create  tmp/cache/assets
+      create  vendor/assets/javascripts
+      create  vendor/assets/javascripts/.keep
+      create  vendor/assets/stylesheets
+      create  vendor/assets/stylesheets/.keep
+         run  bundle install
+
+
+Your user account isn't allowed to install to the system Rubygems.
+You can cancel this installation and run:
+
+    bundle install --path vendor/bundle
+
+to install the gems into ./vendor/bundle/, or you can enter your password
+and install the bundled gems to Rubygems using sudo
+Password: 
+Fetching gem metadata from https://rubygems.org/...........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake (10.2.2)
+Using i18n (0.6.9)
+Using json (1.8.1)
+Using minitest (5.3.2)
+Using thread_safe (0.3.3)
+Using tzinfo (1.1.0)
+Using activesupport (4.1.0)
+Using builder (3.2.2)
+Using erubis (2.7.0)
+Using actionview (4.1.0)
+Using rack (1.5.2)
+Using rack-test (0.6.2)
+Using actionpack (4.1.0)
+Using mime-types (1.25.1)
+Using polyglot (0.3.4)
+Using treetop (1.4.15)
+Using mail (2.5.4)
+Using actionmailer (4.1.0)
+Using activemodel (4.1.0)
+Using arel (5.0.0)
+Using activerecord (4.1.0)
+Using bundler (1.5.3)
+Using coffee-script-source (1.7.0)
+Using execjs (2.0.2)
+Using coffee-script (2.2.0)
+Using thor (0.19.1)
+Using railties (4.1.0)
+Using coffee-rails (4.0.1)
+Using hike (1.2.3)
+Using multi_json (1.9.2)
+Installing jbuilder (2.0.6)
+Using jquery-rails (3.1.0)
+Using mysql2 (0.3.15)
+Using tilt (1.4.1)
+Installing sprockets (2.11.0)
+Using sprockets-rails (2.1.3)
+Using rails (4.1.0)
+Using rdoc (4.1.1)
+Installing sass (3.2.19)
+Installing sass-rails (4.0.3)
+Using sdoc (0.4.0)
+Installing spring (1.1.2)
+Installing turbolinks (2.2.2)
+Installing uglifier (2.5.0)
+Your bundle is complete!
+Use `bundle show [gemname]` to see where a bundled gem is installed.
+         run  bundle exec spring binstub --all
+Warning: You're using Rubygems 1.8.23 with Spring. Upgrade to at least Rubygems 2.1.0 and run `gem pristine --all` for better startup performance.
+* bin/rake: spring inserted
+* bin/rails: spring inserted
+
+== Configure the database .
+Create the empty MySQL databases with appropriate users and permissions.
+
+== Upload to GitHub
+
+~/Projects/github/mailaliases$ git init
+Reinitialised existing Git repository in /home/julian/Projects/github/mailaliases/.git/
+~/Projects/github/mailaliases$ git add .
+~/Projects/github/mailaliases$ git commit -m "Initial rails bundled site deployment"
+[master (root-commit) d9f6005] Initial rails bundled site deployment
+ 58 files changed, 1093 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 .loadpath
+ create mode 100644 .project
+ create mode 100644 Gemfile
+ create mode 100644 Gemfile.lock
+ create mode 100644 README.rdoc
+ create mode 100644 Rakefile
+ create mode 100644 app/assets/images/.keep
+ create mode 100644 app/assets/javascripts/application.js
+ create mode 100644 app/assets/stylesheets/application.css
+ create mode 100644 app/controllers/application_controller.rb
+ create mode 100644 app/controllers/concerns/.keep
+ create mode 100644 app/helpers/application_helper.rb
+ create mode 100644 app/mailers/.keep
+ create mode 100644 app/models/.keep
+ create mode 100644 app/models/concerns/.keep
+ create mode 100644 app/views/layouts/application.html.erb
+ create mode 100755 bin/bundle
+ create mode 100755 bin/rails
+ create mode 100755 bin/rake
+ create mode 100755 bin/spring
+ create mode 100644 config.ru
+ create mode 100644 config/application.rb
+ create mode 100644 config/boot.rb
+ create mode 100644 config/database.yml
+ create mode 100644 config/environment.rb
+ create mode 100644 config/environments/development.rb
+ create mode 100644 config/environments/production.rb
+ create mode 100644 config/environments/test.rb
+ create mode 100644 config/initializers/backtrace_silencers.rb
+ create mode 100644 config/initializers/cookies_serializer.rb
+ create mode 100644 config/initializers/filter_parameter_logging.rb
+ create mode 100644 config/initializers/inflections.rb
+ create mode 100644 config/initializers/mime_types.rb
+ create mode 100644 config/initializers/session_store.rb
+ create mode 100644 config/initializers/wrap_parameters.rb
+ create mode 100644 config/locales/en.yml
+ create mode 100644 config/routes.rb
+ create mode 100644 config/secrets.yml
+ create mode 100644 db/seeds.rb
+ create mode 100644 lib/assets/.keep
+ create mode 100644 lib/tasks/.keep
+ create mode 100644 log/.keep
+ create mode 100644 mailaliases-build
+ create mode 100644 public/404.html
+ create mode 100644 public/422.html
+ create mode 100644 public/500.html
+ create mode 100644 public/favicon.ico
+ create mode 100644 public/robots.txt
+ create mode 100644 test/controllers/.keep
+ create mode 100644 test/fixtures/.keep
+ create mode 100644 test/helpers/.keep
+ create mode 100644 test/integration/.keep
+ create mode 100644 test/mailers/.keep
+ create mode 100644 test/models/.keep
+ create mode 100644 test/test_helper.rb
+ create mode 100644 vendor/assets/javascripts/.keep
+ create mode 100644 vendor/assets/stylesheets/.keep
+julian@fnunbob:~/Projects/github/mailaliases$ git remote add origin https://github.com/slugbucket/mailiases.git
+fatal: remote origin already exists.
+~/Projects/github/mailaliases$ git push -u origin master
+Counting objects: 65, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (54/54), done.
+Writing objects: 100% (65/65), 17.31 KiB | 0 bytes/s, done.
+Total 65 (delta 2), reused 0 (delta 0)
+To https://github.com/slugbucket/mailiases.git
+ * [new branch]      master -> master
+Branch master set up to track remote branch master from origin.
+
+== Build the application model, views and controllers
+
+mailaliases$ rails g scaffold Mailalias cn:string rfc822mailmember:text description:text
+Warning: You're using Rubygems 1.8.23 with Spring. Upgrade to at least Rubygems 2.1.0 and run `gem pristine --all` for better startup performance.
+      invoke  active_record
+      create    db/migrate/20140415205156_create_mailaliases.rb
+      create    app/models/mailalias.rb
+      invoke    test_unit
+      create      test/models/mailalias_test.rb
+      create      test/fixtures/mailaliases.yml
+      invoke  resource_route
+       route    resources :mailaliases
+      invoke  scaffold_controller
+      create    app/controllers/mailaliases_controller.rb
+      invoke    erb
+      create      app/views/mailaliases
+      create      app/views/mailaliases/index.html.erb
+      create      app/views/mailaliases/edit.html.erb
+      create      app/views/mailaliases/show.html.erb
+      create      app/views/mailaliases/new.html.erb
+      create      app/views/mailaliases/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/mailaliases_controller_test.rb
+      invoke    helper
+      create      app/helpers/mailaliases_helper.rb
+      invoke      test_unit
+      create        test/helpers/mailaliases_helper_test.rb
+      invoke    jbuilder
+      create      app/views/mailaliases/index.json.jbuilder
+      create      app/views/mailaliases/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/mailaliases.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/mailaliases.css.scss
+      invoke  scss
+      create    app/assets/stylesheets/scaffolds.css.scss
+mailaliases$ rails g scaffold UserType name:string label:string
+Warning: You're using Rubygems 1.8.23 with Spring. Upgrade to at least Rubygems 2.1.0 and run `gem pristine --all` for better startup performance.
+      invoke  active_record
+      create    db/migrate/20140415205715_create_user_types.rb
+      create    app/models/user_type.rb
+      invoke    test_unit
+      create      test/models/user_type_test.rb
+      create      test/fixtures/user_types.yml
+      invoke  resource_route
+       route    resources :user_types
+      invoke  scaffold_controller
+      create    app/controllers/user_types_controller.rb
+      invoke    erb
+      create      app/views/user_types
+      create      app/views/user_types/index.html.erb
+      create      app/views/user_types/edit.html.erb
+      create      app/views/user_types/show.html.erb
+      create      app/views/user_types/new.html.erb
+      create      app/views/user_types/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/user_types_controller_test.rb
+      invoke    helper
+      create      app/helpers/user_types_helper.rb
+      invoke      test_unit
+      create        test/helpers/user_types_helper_test.rb
+      invoke    jbuilder
+      create      app/views/user_types/index.json.jbuilder
+      create      app/views/user_types/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/user_types.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/user_types.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+mailaliases$ rails g scaffold ActivityLog item_type:string item_id:integer act_action:string updated_by:string activity:text act_tstamp:datetime
+Warning: You're using Rubygems 1.8.23 with Spring. Upgrade to at least Rubygems 2.1.0 and run `gem pristine --all` for better startup performance.
+      invoke  active_record
+      create    db/migrate/20140415210302_create_activity_logs.rb
+      create    app/models/activity_log.rb
+      invoke    test_unit
+      create      test/models/activity_log_test.rb
+      create      test/fixtures/activity_logs.yml
+      invoke  resource_route
+       route    resources :activity_logs
+      invoke  scaffold_controller
+      create    app/controllers/activity_logs_controller.rb
+      invoke    erb
+      create      app/views/activity_logs
+      create      app/views/activity_logs/index.html.erb
+      create      app/views/activity_logs/edit.html.erb
+      create      app/views/activity_logs/show.html.erb
+      create      app/views/activity_logs/new.html.erb
+      create      app/views/activity_logs/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/activity_logs_controller_test.rb
+      invoke    helper
+      create      app/helpers/activity_logs_helper.rb
+      invoke      test_unit
+      create        test/helpers/activity_logs_helper_test.rb
+      invoke    jbuilder
+      create      app/views/activity_logs/index.json.jbuilder
+      create      app/views/activity_logs/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/activity_logs.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/activity_logs.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+
+Edit the db/migrate files and add options, limits, defaults to suit.
+
+== Create the user amd session authentication
+
+Edit the Gemfile and add,
+
+# For LDAP authentication
+gem 'devise'
+gem 'cancan'
+#gem 'rolify'
+
+Rolify might be useful but we seem to have managed without it previously just so
+long as we're happy to build our own role model and integrate with
+the User model.
+
+Follow the instructions described in rails_role_based_access_control.txt for
+devise and CanCan.
+
+
+

@@ -1,0 +1,5 @@
+<%= form_tag(mailaliases_path, :method => 'get') do %>
+<%= text_field_tag :search, session[:search], :id => 'search_field' %>
+<%= submit_tag "Search", :name => nil, :class => "button" %> 
+<%= link_to "Clear", "#", {:id => "search", :onclick => "$('#search_field').val('')", :class => "search"} %>
+<% end %>

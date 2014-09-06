@@ -1,0 +1,24 @@
+<p>
+  <strong>Cn:</strong>
+  <%= @mailalias.cn %>
+</p>
+
+<p>
+  <strong>Rfc822mailmember:</strong>
+  <%= @mailalias.rfc822mailmember %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @mailalias.description %>
+</p>
+
+<p>
+  <strong>Last updated</strong>
+  <%= @mailalias.updated_at.to_s(:time2date) %>
+</p>
+
+<div class="mailaliases">
+	<%= link_to 'Edit', edit_mailalias_path(@mailalias) %> |
+<%= link_to 'Back', mailaliases_path %>
+</div>

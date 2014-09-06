@@ -1,0 +1,53 @@
+<div id="mainbody">
+<h2>Current mailaliases</h2>
+<p id="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+<p>
+Normal users may request new mail aliases, but these will will have a status of requested until approved by a user with Administrative privileges.
+<br />
+Administrative users request a new alias it will be automatically approved.
+<br />
+Click on the common name link to view details of the alias, including the descri
+ption.
+</p>
+<p>
+<div class="digg_pagination">
+<%= will_paginate @mailaliases %>&nbsp;<%= link_to 'New Mailalias', new_mailalias_path %>
+</div>
+<p style="clear: both">
+
+<table class="mailaliases" cellspacing="0" cellpadding="0">
+  <tr class="mailaliases">
+    <th>Common name</th>
+	<% if can? :edit, Mailalias %>
+    <th></th>
+	<% end %>
+    <th>Recipient address</th>
+    <th>Last modified</th>
+    <th>Delete</th>
+  </tr>
+
+<% @mailaliases.each do |mailalias| %>
+    
+  <tr class="<%= cycle('ma_row_dark', 'ma_row_light') %>">
+    
+	<td><%= link_to mailalias.cn, mailalias %></td>
+	<td>
+        <% if can? :edit, Mailalias %>
+        <%= link_to image_tag("edit-icon.png", :size => "16x16", :title => "Edit details"), edit_mailalias_path(mailalias) %>
+        <% end %>
+    </td>
+	
+    <td><%= mailalias.rfc822mailmember.gsub(/\n/, "<br />").html_safe %></td>
+    <td><%= mailalias.updated_at.to_s(:time2date) %></td>
+    <%= render :partial => "shared/delete_link", :object => mailalias, :locals => {:display => "Delete #{mailalias.cn}" } %>
+  </tr>
+<% end %>
+</table>
+</p>
+<p>
+<div class="digg_pagination">
+<%= will_paginate @mailaliases %>&nbsp;<%= link_to 'New Mailalias', new_mailalias_path %>
+</div>
+</p>
+</div>
