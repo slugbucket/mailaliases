@@ -229,11 +229,11 @@ development:
   host: 127.0.0.1
   port: 1389
   attribute: cn
-  base: DC=london,DC=campus,DC=london,DC=edu
-  #bind_dn: cn=networkauth,ou=FTP,ou=Accounts,DC=london,DC=campus,DC=london,DC=edu
+  base: DC=example,DC=com
+  #bind_dn: cn=networkauth,ou=Accounts,DC=example,DC=com
   #password: <secret>
   # These fields inserted by devise_ldap_authenticatable
-  admin_user: cn=networkauth,ou=FTP,ou=Accounts,DC=london,DC=campus,DC=london,DC=edu
+  admin_user: cn=authadmin,ou=Accounts,DC=example,DC=com
   admin_password: <secret>
   ssl: false
 
